@@ -15,6 +15,7 @@ import 'governmentPage/government_page.dart';
 import 'homePage/home_page.dart';
 import 'minePage/mine_page.dart';
 import 'servicePage/service_page.dart';
+import 'generated/l10n.dart';
 
 SpUtil _sp;
 void main() async {
@@ -99,14 +100,12 @@ class _MyAppState extends State<MyApp> {
       //theme: ThemeData.fallback(),
 
       localizationsDelegates: [
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
       ],
-      supportedLocales: [
-        const Locale('zh','CH'),
-        const Locale('en', 'US')
-      ],
-
+      supportedLocales: S.delegate.supportedLocales,
       theme: ThemeData(
         // AppBar的主题样式。
           appBarTheme: AppBarTheme(

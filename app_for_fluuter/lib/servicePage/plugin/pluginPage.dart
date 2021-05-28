@@ -1,4 +1,5 @@
 
+import 'package:app_for_fluuter/servicePage/plugin/flutter_intl_page.dart';
 import 'package:app_for_fluuter/servicePage/plugin/z_scaffold_page.dart';
 import 'package:app_for_fluuter/servicePage/plugin/audio_player_page.dart';
 import 'package:app_for_fluuter/servicePage/plugin/device_info_page.dart';
@@ -36,7 +37,7 @@ class _PluginPageState extends State<PluginPage> {
   List<String> _list = ["DioPage","EventBus","LocationPage","UrlLaunchPage","Video_Player","WebViewPluginPage",
     "BMProgressHudPage","CacheImagePage","PathProviderPage","KeyboardActionsPage","FlutterPickerPage",
     "FlutterMapPage","FlutterBlocPage","BottomTabBarPage", "PhotoViewPage","SpinKitPage","SqflitePage",
-    'FlutterBarrage', "EmptyWidget", "Provider", "DeviceInfo", 'AudioPlayer','ZScaffold'];
+    'FlutterBarrage', "EmptyWidget", "Provider", "DeviceInfo", 'AudioPlayer','ZScaffold', 'Flutter Intl'];
 
 
   @override
@@ -96,6 +97,8 @@ class _PluginPageState extends State<PluginPage> {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => AudioPlayerPage()));
                 }else if(index == 22){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => ZScaffoldPage()));
+                }else if(index == 23){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => FlutterIntlPage()));
                 }else {
 
 
