@@ -8,6 +8,7 @@ import 'package:app_for_fluuter/servicePage/plugin/provider_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
 import 'common/battery_level.dart';
@@ -95,74 +96,76 @@ class _MyAppState extends State<MyApp> {
     // MateraiApp 控件，用于app整体的配置。自身并不会显示。其指定home，有点像ios的window。
 
     // 可以通过这种写法，全局共享ProviderChangeNotifier。
-    return ChangeNotifierProvider.value(value: ProviderChangeNotifier(1), child: MaterialApp(
-      title: 'MyFlutterApp',
-      //theme: ThemeData.fallback(),
+    return ChangeNotifierProvider.value(value: ProviderChangeNotifier(1), child: OKToast(
+      child: MaterialApp(
+        title: 'MyFlutterApp',
+        //theme: ThemeData.fallback(),
 
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      theme: ThemeData(
-        // AppBar的主题样式。
-          appBarTheme: AppBarTheme(
-            elevation: 1,
-            brightness: Brightness.dark,
-            centerTitle: true
-          ),
-          // 脚手架背景颜色。
-          scaffoldBackgroundColor: Colors.white,
+        localizationsDelegates: [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        supportedLocales: S.delegate.supportedLocales,
+        theme: ThemeData(
+          // AppBar的主题样式。
+            appBarTheme: AppBarTheme(
+                elevation: 1,
+                brightness: Brightness.dark,
+                centerTitle: true
+            ),
+            // 脚手架背景颜色。
+            scaffoldBackgroundColor: Colors.white,
 
-          // 主要的颜色。一般导航导航类颜色。比如Appbar、dateTimePick的导航。
-          primarySwatch: Colors.blue,
-          // 特点颜色。比如，radioButton、checkBox、floatingButton、progress等颜色。
-          accentColor: Colors.blue,
+            // 主要的颜色。一般导航导航类颜色。比如Appbar、dateTimePick的导航。
+            primarySwatch: Colors.blue,
+            // 特点颜色。比如，radioButton、checkBox、floatingButton、progress等颜色。
+            accentColor: Colors.blue,
 
-          // 按钮背景颜色。
-          buttonColor: null,
+            // 按钮背景颜色。
+            buttonColor: null,
 
-          // TabBar的indicator
-          indicatorColor: null,
+            // TabBar的indicator
+            indicatorColor: null,
 
-          // 分割线颜色。
-          dividerColor: null,
-          dividerTheme: null,
+            // 分割线颜色。
+            dividerColor: null,
+            dividerTheme: null,
 
-          // 高亮颜色。所有的按钮，按下去就是hightlight样式。
-          highlightColor: Colors.purple.withAlpha(0),
+            // 高亮颜色。所有的按钮，按下去就是hightlight样式。
+            highlightColor: Colors.purple.withAlpha(0),
 
-          // 水波纹效果。带有点击事件的，点击下去的效果。。
-          // splashColor: null,
-          // splashFactory: NoSplashFactory(),
+            // 水波纹效果。带有点击事件的，点击下去的效果。。
+            // splashColor: null,
+            // splashFactory: NoSplashFactory(),
 
-          materialTapTargetSize: MaterialTapTargetSize.padded,
+            materialTapTargetSize: MaterialTapTargetSize.padded,
 
 
 
-          inputDecorationTheme: InputDecorationTheme(
-            border: OutlineInputBorder(),
-          )
+            inputDecorationTheme: InputDecorationTheme(
+              border: OutlineInputBorder(),
+            )
+
+        ),
+
+        home: MyHomePage(),
+
+        //home: _routeToDartFile(window.defaultRouteName),
+
+        // debug模式下，显示右上角的debug样式。默认是true，显示。
+        debugShowCheckedModeBanner: false,
+
+        // 显示widget的边框。默认是false
+        showSemanticsDebugger: false,
+
+        checkerboardOffscreenLayers: true,
+
+        // 屏幕上面显示一层，CPU、GPU的图标，用于性能的判断。
+        showPerformanceOverlay: false,
 
       ),
-
-      home: MyHomePage(),
-
-      //home: _routeToDartFile(window.defaultRouteName),
-
-      // debug模式下，显示右上角的debug样式。默认是true，显示。
-      debugShowCheckedModeBanner: false,
-
-      // 显示widget的边框。默认是false
-      showSemanticsDebugger: false,
-
-      checkerboardOffscreenLayers: true,
-
-      // 屏幕上面显示一层，CPU、GPU的图标，用于性能的判断。
-      showPerformanceOverlay: false,
-
     ),);
   }
 }

@@ -1,4 +1,5 @@
 
+import 'package:app_for_fluuter/servicePage/CustomWidget/extends_widget_page.dart';
 import 'package:flutter/material.dart';
 import 'custom_paint_page.dart';
 import 'single_child_widget_layout_page.dart';
@@ -17,7 +18,7 @@ class _CustomWidgetPageState extends State<CustomWidgetPage> {
 
   List<String> _list = ["CustomPaintPage","SingleChirldLayoutPage","MultiChildLayoutPage",
 
-    "CustomRenderObjPage",""];
+    "CustomRenderObjPage","ExtendsWidgetPage",""];
 
 
   @override
@@ -39,6 +40,8 @@ class _CustomWidgetPageState extends State<CustomWidgetPage> {
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => MultiChildLayoutPage()));
                 }if(index == 3){
                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => CustomRenderObjPage()));
+                }if(index == 4){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ExtendsWidgetPage()));
                 }else {
 
 

@@ -123,9 +123,8 @@ class _FocusDemoSate1 extends State<FocusPage> {
          debugLabel: 'Scope',
          autofocus: true,
          child: DefaultTextStyle(
-           style: textTheme.display1,
+           style: textTheme.bodyText1,
            child: Focus(
-             onKey: _handleKeyPress,
              debugLabel: 'Button',
              child: Builder(
                builder: (BuildContext context) {

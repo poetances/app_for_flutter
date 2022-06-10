@@ -1,8 +1,11 @@
 
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
 class CustomPaintPage extends StatefulWidget {
 
@@ -13,7 +16,7 @@ class CustomPaintPage extends StatefulWidget {
   }
 }
 
-class _CustomPaintPageState extends State<CustomPaintPage> with SingleTickerProviderStateMixin {
+class _CustomPaintPageState extends State<CustomPaintPage> with SingleTickerProviderStateMixin, TCanShowEmptyWidget {
 
   AnimationController _animationController;
   double _progress = 0, _showProgress = 0;
@@ -27,21 +30,17 @@ class _CustomPaintPageState extends State<CustomPaintPage> with SingleTickerProv
 
     Animatable<int>  ava = Tween(begin: 12,end: 10);
 
-  }
+    print("my initState");
 
-  // 当父节点调用build 方法的时候，该方法调用。
-  @override
-  void didUpdateWidget(CustomPaintPage oldWidget) {
-    // TODO: implement didUpdateWidget
-    super.didUpdateWidget(oldWidget);
-
-    print("--------didUpdateWidget");
   }
 
 
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    print("my build");
+
     return Scaffold(
       appBar: AppBar(
         title: Text("CustomPaintPage"),
@@ -85,6 +84,8 @@ class CirclePaint extends CustomPainter {
     double w = size.width;
     double h = size.height;
 
+    ByteData b;
+    Uint8List c = Uint8List.fromList([12]);
 
     // paint 最好不要写死。 每次进行绘图，都初始化一个paint画笔。
     Paint tealPaint = _fetCirclePaint(Colors.teal);
@@ -111,6 +112,27 @@ class CirclePaint extends CustomPainter {
       ..color       = color;
 
     return paint;
+  }
+
+}
+
+
+mixin TCanShowEmptyWidget<T extends StatefulWidget> on State<T> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    print("super initState");
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("super build");
+    return Scaffold(
+      appBar: AppBar(title: Text('hello'),),
+    );
   }
 
 }
