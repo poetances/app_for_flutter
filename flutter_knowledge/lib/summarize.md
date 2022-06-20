@@ -5,8 +5,8 @@
 3、动画。牵扯到几个关键类。AnimatedController、Animatable（通过插值类Tween及其衍生类获取的）、Animation（通过Animatable获取）。
 真正进行动画的可以有几种方式。Animation.addListen(){ setState() }、使用xxxTransition、使用Animatedxxxx(如AnimatedContainer等，这种实现方式需要利用其value值)。
 4、线程问题。Future类。Dart中，事件循环的两个主要事件类，MicroTask和EventTask，我们需要知道其工作方式。
-Future()、Future.microTask() 创建异步线程。这里需要注意的是：创建的异步线程都是串行队列。
-dart/ioslate 可以创建并发队列。但是不同线程间的传递有点麻烦。
+Future()、Future.microTask() 创建协程。
+dart/ioslate 可以创建线程。但是不同线程间的传递有点麻烦。 这里的线程很类似ios 中的进程概念。
 sleep() 函数，存放在dart/io里面。
 5、IO操作。File类操作文件、Director类操作文件夹。
 Director操作文件夹其实很简单。
@@ -931,4 +931,130 @@ dispose
         isolae是dart中开启线程的方式。和普通Thead不同，isolate有独立的内存，所以isolate是由线程和内存组成。正是因为isolate内存不共享，所以
         不存在资源抢夺，也就不需要锁。
 
-            
+        比较轻量级的isolate创建，可以使用compute，其本质还是通过Isolate.spawn进行创建isolate。
+
+2022.6.20
+1、app启动分析。
+```dart
+void runApp(Widget app) {
+    WidgetsFlutterBinding.ensureInitialized()
+      ..scheduleAttachRootWidget(app)
+      ..scheduleWarmUpFrame();
+}
+```
+    三行代码的作用其实就：
+    1、生成Flutter engine和Flutter Framework的中间桥接对象。
+    2、生成相应的app渲染树。
+    3、绘制热身帧, 将渲染树生成的Layer图层通过Flutter Engine渲染到Flutter View上。
+
+    WidgetsFlutterBinding。
+    ```
+    class WidgetsFlutterBinding extends BindingBase with GestureBinding, SchedulerBinding, ServicesBinding, PaintingBinding, SemanticsBinding, RendererBinding, WidgetsBinding {
+        static WidgetsBinding ensureInitialized() {
+            if (WidgetsBinding.instance == null)
+            WidgetsFlutterBinding();
+            return WidgetsBinding.instance!;
+        }
+    }
+    ```
+    继承自BindingBase。同时混入了7个mixin。包括：GestureBinding，SchedulerBinding，ServicesBinding,PaitingBinding,SemanticsBinding,RenderBinding,WidgetsBinding。
+    BindingBase里面有Window是SingletonFlutterWindow。
+    <!-- window.dart -->
+    abstract class FlutterView {}
+    class FlutterWindow extends FlutterView {}
+    class SingletonFlutterWindow extends FlutterWindow {}
+
+    可以看出来最基本的信息在FlutterView里面。
+    比如：
+    devicePixelRatio: 物理像素和虚拟像素的比。
+    geometry：Flutter渲染的view在native中的位置。
+    viewInsets: 各边的显示内容和能显示内容的间距。比如没有键盘viewInsets.bottom = 0。当有键盘的时候viewInsets.bottom = 键盘高度。
+    padding: 类似安全区域。表示不建议显示的区域，比如statusbar、indicator。
+    viewPadding: padding和viewInsets的组合。
+    
+```dart
+abstract class FlutterView {
+  // 
+  PlatformDispatcher get platformDispatcher;
+ 
+  // 
+  ViewConfiguration get viewConfiguration;
+ 
+  // 
+  double get devicePixelRatio => viewConfiguration.devicePixelRatio;
+ 
+  //
+  Rect get physicalGeometry => viewConfiguration.geometry;
+  //
+  Size get physicalSize => viewConfiguration.geometry.size;
+  // 
+  WindowPadding get viewInsets => viewConfiguration.viewInsets;
+  // 
+  WindowPadding get viewPadding => viewConfiguration.viewPadding;
+  //
+  WindowPadding get systemGestureInsets => viewConfiguration.systemGestureInsets;
+  //
+  WindowPadding get padding => viewConfiguration.padding;
+ 
+  //  render方法是将Flutter代码生成的渲染内容(Layer Tree生成的Scene)传递给Flutter Engine, 让GPU去渲染。
+  void render(Scene scene) => _render(scene, this);
+  void _render(Scene scene, FlutterView view) native 'PlatformConfiguration_render';
+}
+```
+SingletonFlutterWindow.
+```dart
+// SingletonFlutterWindow的一个重要方法。就是devicePixelRatio, physicalSize, padding和viewInsets等的变化会触发的回调onMetricsChanged。
+VoidCallback? get onMetricsChanged => platformDispatcher.onMetricsChanged;
+set onMetricsChanged(VoidCallback? callback) {
+    platformDispatcher.onMetricsChanged = callback;
+}
+// 手机设置改变
+Locale get locale => platformDispatcher.locale;
+VoidCallback? get onLocaleChanged => platformDispatcher.onLocaleChanged;
+set onLocaleChanged(VoidCallback? callback) {
+  platformDispatcher.onLocaleChanged = callback;
+}
+// 手势改变等
+PointerDataPacketCallback? get onPointerDataPacket => platformDispatcher.onPointerDataPacket;
+set onPointerDataPacket(PointerDataPacketCallback? callback) {
+  platformDispatcher.onPointerDataPacket = callback;
+}
+```
+
+BindingBase相当于一个接口。后面有7个Mixin。
+RendererBinding的功能主要和渲染树相关。
+ServicesBinding的主要功能是接收MethodChannel和SystemChannels传递过来的消息。我们来看看ServicesBinding的主要代码：
+PaintingBinding其实它是处理图片缓存的mixin。和RenderObject的Paint没啥关系。
+SchedulerBinding主要处理任务调度。
+GestureBinding主要处理用户的各种操作。
+WidgetsBinding主要处理widget tree的一些逻辑。
+
+第二步：
+scheduleAttachRootWidget。
+attachRootWidget中初始化了一个RenderObjectToWidgetAdapter对象，构造函数传入了renderView和rootWidget。
+renderView就是RendererBinding的initInstances方法中初始化的那个对象，rootWidget则是我们写的界面MyApp()。从构造函数的参数名我们可以看到，renderView是容器，rootWidget是这个容器的child。
+也就是说renderView是所有的Widget的根。
+
+2、setState的本质。 _element!.markNeedsBuild();
+
+3、Flutter渲染引擎Skia
+Skia就是Flutter向GPU提供数据的途径
+Skia(全称Skia Graphics Library(SGL))是一个C++编写的图形库,能在低端设备上呈现高质量的2D图形,最初由Skia公司开发,后被Google收购.
+目前,Skia已然是Android官方的图像渲染引擎了,因此Flutter Android SDK无需内嵌Skia引擎就可以获得天然的Skia支持.该引擎应用于Android,Google Chrome, Chrome OS等等当中.
+而对于iOS平台来说,有Skia是跨平台的,因此它作为Flutter iOS渲染引擎被嵌入到Flutter的iOS SDK中,替代iOS闭源的Core Graphics/Core Animation /Core Text,这也正是Flutter iOS SDK打包的App包体积比Android要大的原因.
+
+4、三棵树。Widget、Element、RenderObject.
+    Widget，有createElement。生成Element。
+    Element，renderObject。
+    简而言之是为了性能，为了复用Element从而减少频繁创建和销毁RenderObject。因为实例化一个RenderObject的成本是很高的，频繁的实例化和销毁RenderObject对性能的影响比较大，
+所以当Widget树改变的时候，Flutter使用Element树来比较新的Widget树和原来的Widget树：
+```dart
+// 是否重绘Element，其核心就是canUpdate，判断两个Widget是否相等。
+// 如果某一个位置的Widget和新Widget不一致，才需要重新创建Element；
+// 如果某一个位置的Widget和新Widget一致时(两个widget相等或runtimeType与key相等)，则只需要修改RenderObject的配置，不用进行耗费性能的RenderObject的实例化工作了；
+// 因为Widget是非常轻量级的，实例化耗费的性能很少，所以它是描述APP的状态（也就是configuration）的最好工具；重量级的RenderObject（创建十分耗费性能）则需要尽可能少的创建，并尽可能的复用；
+static bool canUpdate(Widget oldWidget, Widget newWidget) {
+    return oldWidget.runtimeType == newWidget.runtimeType
+        && oldWidget.key == newWidget.key;
+}
+```
