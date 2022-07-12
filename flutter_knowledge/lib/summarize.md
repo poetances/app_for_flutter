@@ -1048,6 +1048,8 @@ Skia(全称Skia Graphics Library(SGL))是一个C++编写的图形库,能在低�
     Element，renderObject。
     简而言之是为了性能，为了复用Element从而减少频繁创建和销毁RenderObject。因为实例化一个RenderObject的成本是很高的，频繁的实例化和销毁RenderObject对性能的影响比较大，
 所以当Widget树改变的时候，Flutter使用Element树来比较新的Widget树和原来的Widget树：
+可以说Element是存在于可变Widget树和不可变RenderObject树之间的桥梁。Element擅长比较两个Object，在Flutter里面就是Widget和RenderObject。它的作用是配置好Widget在树中的位置，
+并且保持对于相对应的RenderObject和Widget的引用。
 ```dart
 // 是否重绘Element，其核心就是canUpdate，判断两个Widget是否相等。
 // 如果某一个位置的Widget和新Widget不一致，才需要重新创建Element；
@@ -1058,3 +1060,9 @@ static bool canUpdate(Widget oldWidget, Widget newWidget) {
         && oldWidget.key == newWidget.key;
 }
 ```
+
+7.11
+Dart语法。
+1、dart中所有变量都是对象，即使是int类型。比如 int count; if (count == null) 这样的判断是完全可以的，因为万物皆对象。
+2、dart中声明变量var、final，一般在函数内部建议是用var，而不是指定类型。
+3、final、const。 

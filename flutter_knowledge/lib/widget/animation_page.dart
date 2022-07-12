@@ -17,6 +17,7 @@ class _AnimationPageState extends State<AnimationPage> {
       body: Column(
         children: [
 
+
         ],
       ),
     );
