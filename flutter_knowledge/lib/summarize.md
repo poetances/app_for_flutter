@@ -1066,3 +1066,6 @@ Dart语法。
 1、dart中所有变量都是对象，即使是int类型。比如 int count; if (count == null) 这样的判断是完全可以的，因为万物皆对象。
 2、dart中声明变量var、final，一般在函数内部建议是用var，而不是指定类型。
 3、final、const。 
+
+7.12
+1、基本数据类型。num（包括：int、double）、String、bool、List、Map、Set、Rune、Symbol。 其中num中定义了各种运算符。+ - * / ~/等。
