@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_knowledge/knowledge/a_knowledge_page.dart';
 import 'package:flutter_knowledge/widget/a_widget_page.dart';
-import 'package:get/get.dart';
 
 class TabPage extends StatefulWidget {
   const TabPage({Key? key}) : super(key: key);

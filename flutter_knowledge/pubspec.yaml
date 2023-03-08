@@ -38,6 +38,14 @@ dependencies:
   # get
   get: ^4.6.5
 
+  # loading
+  flutter_easyloading: any
+
+  #
+  dio: any
+  cached_network_image: any
+  event_bus: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -48,17 +56,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
-
-  # loading
-  flutter_easyloading: any
-
-  #
-  dio: any
-  cached_network_image: any
-
-  get: any
-
-  event_bus: any
 
 
 flutter:

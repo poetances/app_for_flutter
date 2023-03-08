@@ -1,7 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_knowledge/knowledge/grammar_page.dart';
+import 'package:flutter_knowledge/knowledge/init_page.dart';
+import 'package:flutter_knowledge/knowledge/method_page.dart';
 import 'package:flutter_knowledge/knowledge/mixin_page.dart';
+import 'package:flutter_knowledge/knowledge/operator_page.dart';
+import 'package:flutter_knowledge/knowledge/standard_type_page.dart';
+import 'package:flutter_knowledge/knowledge/variable_page.dart';
 import 'package:get/get.dart';
 
 import 'isolate_page.dart';
@@ -20,7 +25,12 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
     List pages = [
       'IsolatePage',
       'Grammar',
-      'Mixin'
+      'Mixin',
+      'Init',
+      'Variable',
+      'StandardType',
+      'Method',
+      'Operator'
     ];
 
     return Scaffold(
@@ -55,6 +65,23 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
         break;
       case 'Mixin':
         Get.to(const MixinPage());
+        break;
+      case 'Init':
+        Get.to(const InitPage());
+        break;
+      case 'Variable':
+        Get.to(const VariablePage());
+        break;
+      case 'StandardType':
+        Get.to(const StandardTypePage());
+        break;
+      case 'Method':
+        Get.to(const MethodPage());
+        break;
+      case 'Operator':
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const OperatorPage()),
+        );
         break;
       default:
         break;

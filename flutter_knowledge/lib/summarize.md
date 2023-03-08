@@ -1050,14 +1050,13 @@ Skia(全称Skia Graphics Library(SGL))是一个C++编写的图形库,能在低�
 所以当Widget树改变的时候，Flutter使用Element树来比较新的Widget树和原来的Widget树：
 可以说Element是存在于可变Widget树和不可变RenderObject树之间的桥梁。Element擅长比较两个Object，在Flutter里面就是Widget和RenderObject。它的作用是配置好Widget在树中的位置，
 并且保持对于相对应的RenderObject和Widget的引用。
-```dart
+```
 // 是否重绘Element，其核心就是canUpdate，判断两个Widget是否相等。
 // 如果某一个位置的Widget和新Widget不一致，才需要重新创建Element；
 // 如果某一个位置的Widget和新Widget一致时(两个widget相等或runtimeType与key相等)，则只需要修改RenderObject的配置，不用进行耗费性能的RenderObject的实例化工作了；
 // 因为Widget是非常轻量级的，实例化耗费的性能很少，所以它是描述APP的状态（也就是configuration）的最好工具；重量级的RenderObject（创建十分耗费性能）则需要尽可能少的创建，并尽可能的复用；
 static bool canUpdate(Widget oldWidget, Widget newWidget) {
-    return oldWidget.runtimeType == newWidget.runtimeType
-        && oldWidget.key == newWidget.key;
+    return oldWidget.runtimeType == newWidget.runtimeType && oldWidget.key == newWidget.key;
 }
 ```
 
@@ -1069,3 +1068,75 @@ Dart语法。
 
 7.12
 1、基本数据类型。num（包括：int、double）、String、bool、List、Map、Set、Rune、Symbol。 其中num中定义了各种运算符。+ - * / ~/等。
+2、关于断言Asset(condition)，如果condition为true，则断言成功，则继续执行。如果为false则抛出异常。
+
+3.7
+Dart语言回顾。
+语法习惯：
+1、var修饰局部变量，即一般函数内部变量。
+2、方法要有指定返回值。
+```dart
+// 返回值、成员变量最好指定类型
+String name() { 
+    var age = 12; // 局部变量使用var
+    return '$age';
+}
+```
+3、变量使用前必须初始化。
+    注意：你并不需要在声明变量时初始化，只需在第一次用到这个变量前初始化即可。例如，下面的代码是正确的
+4、late修饰符。延迟初始化一个变量。
+    通常 Dart 的语义分析会在一个已声明为非空的变量被使用前检查它是否已经被赋值，但有时这个分析会失败。
+    例如：在检查顶级变量和实例变量时，分析通常无法判断它们是否已经被初始化，因此不会进行分析。
+    在下面这个例子中，如果 temperature 变量从未被使用的话，那么 readThermometer() 将永远不会被调用：
+    late String temperature = readThermometer(); // Lazily initialized.
+5、如果你不想更改一个变量，可以使用关键字 final 或者 const 修饰变量，这两个关键字可以替代 var 关键字或者加在一个具体的类型前。
+    一个 final 变量只可以被赋值一次；一个 const 变量是一个编译时常量 (const 变量同时也是 final 的)。
+    const构造方法，如果有，则参数必须是final类型。
+
+6、标准类型及内置类型：
+    num(int, double),
+    String,
+    Bool
+    这些都是编译时字面量，所以可以使用const。而且如果使用final，会有警告。如果是字面量
+    使用const的好处是编译就确定常量，这样可以提高程序性能，减少内存开销。
+List，数组。var a = [1, 2];则会进行类型推导为List<int>
+    const b = [1, 2, 3];
+    b = a;
+        var c = const [1, 2, 3];
+        c = a;
+        注意：上面两句代码的区别。主要还是const修饰谁的问题。其实两句代码都说明List不可变，但是const修饰b，
+        那么b不可变，如果在给b重新赋值，就会报错。c因为是var修饰，所以c=a不会报错。
+        final b = [1, 2, 3]
+        b.add(4); ✅，因为final修饰的是b，那么数组其实还是可变的。b = a❌
+Set，无序的元素唯一集合。一般Set底部都是hash表，hash表一定是无序的。而且里面的元素是唯一的。
+        var halogens = {2, 1, 3};
+        halogens.add(4);
+        halogens.add(2);
+        halogens.add(1);
+        结果还是{2, 1, 3, 4}
+        var emptySet = <String>{};
+       Map，Map 是用来关联 keys 和 values 的对象。其中键和值都可以是任何类型的对象。
+          每个 键 只能出现一次但是 值 可以重复出现多次。
+          // 会推导成Map<dynamic, dynamic>类型
+          var a = {};
+          // 可以使用 <String, String>{};去指定类型
+          var gifts = <String, String>{};
+          // 会推导成Map<String, int>类型
+          var b = {
+            'a': 12,
+            'b': 15
+          };
+       注意：List、Set、Map都是抽象类。
+
+Characters字符。UTF-16的全称是“Unicode Transformation Format 16-bit”，即Unicode转换格式16位。
+    Unicode 编码为每一个字母、数字和符号都定义了一个唯一的数值。因为 Dart 中的字符串是一个 UTF-16 的字符序列，
+    所以如果想要表示 32 位的 Unicode 数值则需要一种特殊的语法。
+    表示 Unicode 字符的常见方式是使用\u1231，其中 XXXX 是一个四位数的 16 进制数字。
+    例如心形字符（♥）的 Unicode 为 \u2665。对于不是四位数的 16 进制数字，需要使用大括号将其括起来。
+    例如大笑的 emoji 表情（😆）的 Unicode 为 \u{1f600}。
+    如果你需要读写单个 Unicode 字符，可以使用 characters 包中定义的 characters getter。
+    它将返回 Characters 对象作为一系列 grapheme clusters 的字符串。下面是使用 characters API 的样例：
+
+7、在Flutter中，使用const关键字可以创建一个不可变的widget，这在某些情况下是非常有用的。
+    首先，使用const关键字创建widget可以提高性能。当使用const关键字创建widget时，Flutter会在编译时进行静态分析并将相同的widget合并为一个，
+    从而减少了运行时的开销。这可以帮助减少应用程序的内存使用和提高性能。
