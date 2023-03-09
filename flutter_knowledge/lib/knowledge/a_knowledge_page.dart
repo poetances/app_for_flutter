@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_knowledge/knowledge/anomaly_page.dart';
+import 'package:flutter_knowledge/knowledge/class_page.dart';
 import 'package:flutter_knowledge/knowledge/grammar_page.dart';
 import 'package:flutter_knowledge/knowledge/init_page.dart';
 import 'package:flutter_knowledge/knowledge/method_page.dart';
@@ -30,7 +32,9 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
       'Variable',
       'StandardType',
       'Method',
-      'Operator'
+      'Operator',
+      'Anomaly',
+      'Class'
     ];
 
     return Scaffold(
@@ -82,6 +86,12 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
         Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => const OperatorPage()),
         );
+        break;
+      case 'Anomaly':
+        Get.to(const AnomalyPage());
+        break;
+      case 'Class':
+        Get.to(const ClassPage());
         break;
       default:
         break;
