@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_knowledge/knowledge/abstract_class_page.dart';
 import 'package:flutter_knowledge/knowledge/anomaly_page.dart';
 import 'package:flutter_knowledge/knowledge/class_page.dart';
+import 'package:flutter_knowledge/knowledge/enum_page.dart';
 import 'package:flutter_knowledge/knowledge/grammar_page.dart';
+import 'package:flutter_knowledge/knowledge/import_page.dart';
 import 'package:flutter_knowledge/knowledge/init_page.dart';
 import 'package:flutter_knowledge/knowledge/method_page.dart';
 import 'package:flutter_knowledge/knowledge/mixin_page.dart';
@@ -34,7 +37,10 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
       'Method',
       'Operator',
       'Anomaly',
-      'Class'
+      'Class',
+      'Abstract',
+      'Enum',
+      'Import'
     ];
 
     return Scaffold(
@@ -55,6 +61,7 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
         },
         separatorBuilder: (context, index) => const Divider(),
         itemCount: pages.length,
+        reverse: true,
       ),
     );
   }
@@ -92,6 +99,15 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
         break;
       case 'Class':
         Get.to(const ClassPage());
+        break;
+      case 'Abstract':
+        Get.to(const AbstractClassPage());
+        break;
+      case 'Enum':
+        Get.to(const EnumPage());
+        break;
+      case 'Import':
+        Get.to(const ImportPage());
         break;
       default:
         break;

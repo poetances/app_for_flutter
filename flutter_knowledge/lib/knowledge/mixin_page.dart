@@ -15,6 +15,38 @@ class _MixinPageState extends State<MixinPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Text('''
+抽象类和混入在语法和用途上是有很大的不同的。抽象类主要用于表示一种抽象的概念或行为，
+限制子类的行为和实现；混入主要用于为类添加一些特定的行为或功能，而不是为了表示一种抽象的概念或行为。
+1、其实早起，dart实现接口，一般就是abstract class来实现。但是现在一般使用mixin。
+abstract class，可以作为基类，或者接口。
+2、mixin混合类，一般是为了给类添加新的功能。
+abstract class CanMixinSuper {
+  void canMixin() {
+    print('CanMixinSuper canMixin');
+  }
+}
+
+mixin Mixin1 on CanMixinSuper {
+  void canMixin1() {
+  }
+}
+
+mixin Mixin2 on CanMixinSuper {
+  void canMixin2() {
+  }
+}
+
+class CanMixin extends CanMixinSuper with Mixin1, Mixin2 {
+
+  void startMixin() {
+    // 开始混入
+    canMixin();
+    canMixin1();
+    canMixin2();
+  }
+}
+          '''),
           ElevatedButton(onPressed: (){
             final mix = CanMixin();
             mix.startMixin();
@@ -79,22 +111,13 @@ abstract class CanMixinSuper {
 }
 
 mixin Mixin1 on CanMixinSuper {
-
-  @override
-  void canMixin() {
-    super.canMixin();
-    print('mixin1 canMixin');
+  void canMixin1() {
   }
 }
 
-mixin Mixin2 on CanMixinSuper{
-
-  @override
-  void canMixin() {
-    super.canMixin();
-    print('mixin2 canMixin');
+mixin Mixin2 on CanMixinSuper {
+  void canMixin2() {
   }
-
 }
 
 class CanMixin extends CanMixinSuper with Mixin1, Mixin2 {
@@ -102,6 +125,7 @@ class CanMixin extends CanMixinSuper with Mixin1, Mixin2 {
   void startMixin() {
     // 开始混入
     canMixin();
+    canMixin1();
+    canMixin2();
   }
-
 }

@@ -1147,7 +1147,7 @@ Characters字符。UTF-16的全称是“Unicode Transformation Format 16-bit”�
         否则需要有构造函数去进行初始化。
     3、构造函数不能继承。所以父类有了自定义构造函数，那么子类必须显示声明构造函数，
         同时需要调父类的构造函数。
-    4、还可以通过超累构造函数的方式。但是Dart版本必须是2.17之后
+    4、还可以通过超累构造函数的方式。但是Dart版本必须是2.16之后
     5、初始化列表 
     6、重定向构造函数
     7、单利
@@ -1180,4 +1180,33 @@ class OperatorClass {
   }
 }
 ```
-                   
+10、abstract抽象类，一般用于定义接口。当然也可以定义基类。如果是接口，一般通过implements关键字来实现。
+11、enum。虽然枚举，没有swift强大。但是dart的枚举，也是可以定义方法、常量构造函数、属性的。以及实现接口的。
+    每个enum都有一个index，即下标。 name、values等固定属性。当然也是只有2.17之后才有。
+```dart
+/// 可以实现超级enum，并且能够实现接口。
+/// 同时枚举也是支持属性、常量构造方法、增加方法。
+enum Vehicle implements Comparable<Vehicle> {
+  car(tires: 4, passengers: 5, carbonPerKilometer: 400),
+  bus(tires: 6, passengers: 50, carbonPerKilometer: 800),
+  bicycle(tires: 2, passengers: 1, carbonPerKilometer: 0);
+
+
+  const Vehicle({
+    required this.tires,
+    required this.passengers,
+    required this.carbonPerKilometer,
+  });
+
+  final int tires;
+  final int passengers;
+  final int carbonPerKilometer;
+
+  int get carbonFootprint => (carbonPerKilometer / passengers).round();
+
+  @override
+  int compareTo(Vehicle other) => carbonFootprint - other.carbonFootprint;
+}
+```
+12、对mixin的理解。
+13、关于泛型，即泛型限制，泛型方法的使用。
