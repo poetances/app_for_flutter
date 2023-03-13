@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_knowledge/knowledge/abstract_class_page.dart';
 import 'package:flutter_knowledge/knowledge/anomaly_page.dart';
+import 'package:flutter_knowledge/knowledge/async_page.dart';
 import 'package:flutter_knowledge/knowledge/class_page.dart';
 import 'package:flutter_knowledge/knowledge/enum_page.dart';
 import 'package:flutter_knowledge/knowledge/grammar_page.dart';
@@ -40,7 +41,8 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
       'Class',
       'Abstract',
       'Enum',
-      'Import'
+      'Import',
+      'Async'
     ];
 
     return Scaffold(
@@ -108,6 +110,9 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
         break;
       case 'Import':
         Get.to(const ImportPage());
+        break;
+      case 'Async':
+        Get.to(const AsyncPage());
         break;
       default:
         break;

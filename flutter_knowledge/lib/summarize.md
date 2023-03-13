@@ -34,12 +34,6 @@ wit比较特殊，当我们像要实现多继承的时候，需要用到with关�
 需要用到关键字mixin和on来实现。
 flutter 没有interface关键字。我们可以使用abstract和mixin进行替代。当然官方解释，所有的class都可以作为interface。
 
-3、字符串String = r"xxxxx \n xxxxx"; 创建的raw字符。里面的所以字符都是字符比如\n就是字符，而不是换行。正则表达式可以使用。其实类似\n前面加\。
-即\\n。
-4、const修饰List数组，那么就不能向里面添加内容。const 修饰construction函数。那么其属性都必须是final类型的。
-const相对于final，其不可变是会传递的。比如，用final修饰 数组，数组还是可以变的。但是const修饰那么数组是不会变的。
-总的来说，const限制条件更加苛刻。
-5、函数中的参数，有可选命名参数和可选位置参数。主要是参数名字是否写上的问题。可选位置参数是不需要写的，可选命名参数需要写。
 6、factory工厂构造方法。 和其它的构造方法的区别就是。factory构造方法需要手动return 对象。
 7、ListView可以通过。buildChildLayout来将其转换为，SliderListView。
 8、Opacity控件。SingleChildRenderObjectWidget。
@@ -1147,7 +1141,7 @@ Characters字符。UTF-16的全称是“Unicode Transformation Format 16-bit”�
         否则需要有构造函数去进行初始化。
     3、构造函数不能继承。所以父类有了自定义构造函数，那么子类必须显示声明构造函数，
         同时需要调父类的构造函数。
-    4、还可以通过超累构造函数的方式。但是Dart版本必须是2.16之后
+    4、还可以通过超累构造函数的方式。但是Dart版本必须是2.17之后
     5、初始化列表 
     6、重定向构造函数
     7、单利
