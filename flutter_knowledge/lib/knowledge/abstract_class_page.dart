@@ -27,6 +27,5 @@ class Person extends Runner {
 
   @override
   void run() {
-
   }
 }

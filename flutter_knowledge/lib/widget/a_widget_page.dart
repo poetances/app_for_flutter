@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_knowledge/knowledge/isolate_page.dart';
+import 'package:flutter_knowledge/widget/animation_page.dart';
 import 'package:get/get.dart';
 
 class AWidgetPage extends StatefulWidget {
@@ -15,7 +16,8 @@ class _AWidgetPageState extends State<AWidgetPage> {
   @override
   Widget build(BuildContext context) {
     List pages = [
-      'IsolatePage'
+      'Isolate',
+      'Animation'
     ];
 
     return Scaffold(
@@ -42,8 +44,11 @@ class _AWidgetPageState extends State<AWidgetPage> {
 
   void _push(String page) {
     switch (page) {
-      case 'IsolatePage':
+      case 'Isolate':
         Get.to(const IsolatePage());
+        break;
+      case 'Animation':
+        Get.to(const AnimationPage());
         break;
       default:
         break;
