@@ -1,4 +1,8 @@
 
+
+import 'dart:async';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class AnimationPage extends StatefulWidget {
@@ -20,6 +24,21 @@ class _AnimationPageState extends State<AnimationPage> with SingleTickerProvider
     _controller = AnimationController(vsync: this);
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
 
+    const color = Colors.red;
+    var isPrimary = switch (color) {
+      Colors.red || Colors.yellow || Colors.blue => true,
+      _ => false
+    };
+
+    var a = [1, 2, 4];
+    switch (a) {
+      case [var a, var b]:
+        print('ab===$a-$b');
+        break;
+      case [final c, final d, final e]:
+        print('cde==$c-$d-$e');
+        break;
+    }
   }
 
   @override
@@ -30,22 +49,20 @@ class _AnimationPageState extends State<AnimationPage> with SingleTickerProvider
         children: [
           // 类似于隐士动画
           AnimatedContainer(
-            duration: const Duration(seconds: 1),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.red, width: 1)
-            ),
-            width: 100,
-            height: 100
+              duration: const Duration(seconds: 1),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.red, width: 1)
+              ),
+              width: 100,
+              height: 100
           ),
 
           // 通过animation controller驱动
           ScaleTransition(scale: _animation),
-
           // 直接使用AnimationController，搭配Animation listener进行监听和更新。
         ],
       ),
     );
   }
 }
-

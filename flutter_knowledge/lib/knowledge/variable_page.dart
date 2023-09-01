@@ -23,7 +23,9 @@ class _VariablePageState extends State<VariablePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('''
+          const Expanded(
+            child: SingleChildScrollView(
+              child: Text('''
 1、若你启用了空安全，你必须在使用变量前初始化它的值。
 int lineCount = 0;
 2、你并不需要在声明变量时初始化，只需在第一次用到这个变量前初始化即可。例如，下面的代码是正确的，
@@ -61,12 +63,23 @@ print(lineCount);
   * 它位于可执行文件的常量段（.rodata 段）中。常量池中存储的对象在整个应用程序生命周期中都只会被分配一次，并且在运行时被共享。
   * 这里的常量池，其实就是我们所说的常量区。因为编译时候就确定，所以对内存和性能有很大帮助。                    
           '''),
+            ),
+          ),
           ElevatedButton(onPressed: (){
             print(name); // 注意：只有使用到时候，_getName方法才会被调用。
-          }, child: const Text('使用变量'))
+          }, child: const Text('使用变量')),
+
+          ElevatedButton(onPressed: (){
+            _testException(); // 注意，这种error是不需要捕捉的
+          }, child: const Text('Exception'))
         ],
       ),
     );
+  }
+
+  void _testException() {
+
+    throw Exception('this is exception');
   }
 }
 

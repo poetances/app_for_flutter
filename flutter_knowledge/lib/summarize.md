@@ -852,11 +852,10 @@ flutter: _bids----2：ConnectionState.done
 通过Navigator.pod是不会调用的。
 
 
-    首先晚上好，我叫朱朝俊，我是14毕业的，毕业后从事了一段时间的c语言开发，然后当时移动端开发很火，我就转的是ios开发，我的话也参与多个项目
+    首先晚上好，很开心能参加今天的这个面试，我是14毕业的，毕业后从事了一段时间的c语言开发，然后当时移动端开发很火，我就转的是ios开发，我的话也参与多个项目
     在原生开发这块擅长oc和swift开发，android的开发也懂一些，以为原生开发需要大量的经验积累，所以android不是特别精通。在跨平台方面，
     擅长flutter开发，我目前的这个项目本来就是swift项目，然后我们二期用flutter进行了重构，我个人目前也接了一个flutter的私人项目，所以
     flutter还是比较熟悉的。我本人其实也是一个比较踏实的一个人，工作也是比较认真的，平时也喜欢学习一些新技术，丰富自己的技能栈。
-
 
     首先我擅长移动端开发，所以短期内可能还是从事这方面工作。
     在技术层面上，我也希望在深入学习android和后台方面的知识，丰富自己技术栈。希望自己以后能够在移动端开发中，熟悉各个流程和原理，
@@ -894,7 +893,7 @@ dispose
 1、dart是没有结构体的。
 
 2022.6.14
-1、flutter渲染引擎。 iOS的渲染有Metal、OpenGL ES。 在ios 10之上，就使用的Metal进行渲染。
+1、flutter渲染引擎skia。 iOS的渲染有Metal、OpenGL ES。 在ios 10之上，就使用的Metal进行渲染。
 2、flutter engine。
 ![img.png](../../../Documents/宝藏/Code/flutter_knowledge/app_for_fluuter/lib/img.png)
     Flutter的整体架构有三部分：Framework、Engine和Platform。
@@ -1134,7 +1133,7 @@ Characters字符。UTF-16的全称是“Unicode Transformation Format 16-bit”�
 7、在Flutter中，使用const关键字可以创建一个不可变的widget，这在某些情况下是非常有用的。
     首先，使用const关键字创建widget可以提高性能。当使用const关键字创建widget时，Flutter会在编译时进行静态分析并将相同的widget合并为一个，
     从而减少了运行时的开销。这可以帮助减少应用程序的内存使用和提高性能。
-8、操作符is, as、 ??=
+8、操作符is, is!, as、 ??=
 9、构造函数
     1、dart会默认生成一个无名、无参的构造函数。
     2、如果有成员变量，那么成员变量必须是可选类型、或者指定了默认值。
@@ -1204,3 +1203,285 @@ enum Vehicle implements Comparable<Vehicle> {
 ```
 12、对mixin的理解。
 13、关于泛型，即泛型限制，泛型方法的使用。
+14、dart中避空运算符， ??=(只有为空才会赋值)、??(前面为空，则用后面的值和swift很像) 语法的含义。
+15、代码联级..用法。
+16、late延时赋值，当一个赋值时候使用了耗时操作（比如用到this)或者给一个值进行延时赋值。
+    该变量可能不需要，并且初始化它的成本很高。
+    您正在初始化一个实例变量，并且其初始值设定项需要访问this。类似late String temperature = readThermometer(); // Lazily initialized.
+
+8.8
+关于Flutter中，Flex、Row、Colum以及Flexible之间的关系。
+class Flex extends MultiChildRenderObjectWidget
+class Column extends Flex
+class Row extends Flex
+class Flexible extends ParentDataWidget<FlexParentData>
+class Expand extends Flexible
+两个属性：flex:可以用于表示剩余空间占用比例
+         fit: loose和tight。loose是已flex来进行处理、tight是以child大小来进行处理。
+其实Row和Column都是继承Flex的。Flexible必须在Flex中使用。
+
+// 用于指定固定尺寸。它可以强制其子widget具有特定的宽度和高度
+class SizedBox extends SingleChildRenderObjectWidget
+
+class Spacer extends StatelessWidget
+
+2、Text
+class Text extends StatelessWidget
+但是Text的实现其实是基于RichText实现的。所以有了Text.rich这样的初始话。
+
+class RichText extends MultiChildRenderObjectWidget
+
+3、注解：自带的注解有@Deprecated、@deprecated和@override
+在Dart中，元数据注解（Metadata annotation）是一种用于给你的代码添加信息的工具。元数据注解以字符`@`开始，后面跟着一个编译时常量的引用。它们可以为编译器提供信息，或者在运行时被代码读取。以下是一些元数据注解的作用：
+
+1. **编译指示**：元数据注解可以影响代码的编译过程。例如，`@override`注解告诉编译器，此方法是重写了其父类的方法。如果父类没有这个方法，编译器则会报错。
+
+2. **代码生成**：一些库使用元数据注解来自动生成代码。例如，JSON序列化库 `json_serializable` 使用 `@JsonSerializable` 注解来标记需要生成序列化代码的类。
+
+3. **文档工具**：元数据注解可以用于生成API文档。例如，`@Deprecated`注解可以标识不再推荐使用的代码，并在生成的API文档中显示这个信息。
+
+4. **自定义插件或框架**：如果你正在创建你自己的库、框架或者插件，你可能会用到元数据注解。你可以定义自己的注解，并在处理这些注解时执行特殊的逻辑。
+
+需要注意的是，虽然元数据注解可以被添加到任何声明式代码之前（例如，类、方法、函数参数等等），但是并不能改变这些代码的行为。元数据仅提供额外的信息，并需要特定的工具或者你自己的代码来读取和处理这些信息。
+`@JsonSerializable`是Dart JSON序列化库（`json_serializable`）中的一个注解，常用于标记需要生成JSON序列化和反序列化代码的类。
+以下是其工作原理：
+1. **标记类**：在你需要进行JSON序列化或反序列化的类上添加`@JsonSerializable`注解。
+2. **运行代码生成**：在命令行运行`flutter pub run build_runner build`命令。这个命令会触发`build_runner`包的构建脚本，`build_runner`是Dart中的一个构建系统，可以自动化执行某些任务，如代码生成。
+3. **代码生成**：`build_runner`通过调用`json_serializable`包中的生成器（generator）来读取标记了`@JsonSerializable`注解的类，然后为这些类生成相应的JSON序列化和反序列化代码。生成的代码通常会在一个单独的文件中，文件名为`<source_file>.g.dart`，其中`<source_file>`是源文件的名字。
+4. **使用生成的代码**：在源代码中，你可以使用`part`指令来引入生成的文件，然后就可以调用生成的序列化和反序列化方法了。
+使用`@JsonSerializable`和代码生成可以避免手动编写序列化和反序列化的代码，大大提高了开发效率，同时也减少了出错的可能性。
+
+4、import导入库。常见的几种场景：
+import 'package:lib2/lib2.dart' as lib2;
+import 'package:lib1/lib1.dart' show foo;
+import 'package:lib2/lib2.dart' hide foo;
+// 延迟加载
+import 'package:greetings/hello.dart' deferred as hello;
+
+5、flutter的基础数据类型：
+Numbers (int, double)： Number是一个抽象类，int、double都是继承Number
+Strings (String): 字符串
+Booleans (bool)：Bool类型
+Records ((value1, value2))：Record是dart 3.0引入的，有点类似Swift中的元祖。
+```dart
+Recod a = (1, 2);
+(String, int) a = ('david', 3);
+a.$1
+a.$2
+```
+Lists (List, also known as arrays): List抽象类
+Sets (Set): 集合
+Maps (Map)：字典
+Runes (Runes; often replaced by the characters API)：Runes是一个字符串的unicode编码对应的十进制数。
+```dart
+Runes input = new Runes(
+    'Hello 🌍'
+);
+
+input.forEach((int rune) {
+  var character=new String.fromCharCode(rune);
+  print(character);
+});
+```
+Symbols (Symbol)：符号
+    Symbol 在JavaScript中是将基本数据类型转换为唯一标识符,最常见的应用是可以将复杂引用数据类型转换为对象数据类型的键名.
+    在Dart中,Symbol 是不透明的动态字符串名称,用于反映库中的元数据.用 Symbol 可以获得或引用类的一个镜像，概念比较复杂，但其实和 JavaScript 的用法基本上是一致的。
+    例如，下面代码首先 new 了一个 test 为 Map 数据类型，设置一个属性 #t（Symbol 类型），然后分别打印 test、test 的 #t、test 的 Symbol("t") 和 #t。
+```dart
+Map test = new Map();
+test[#t] = "symbol test";
+print(test);
+print(test[#t]);
+print(test[Symbol('t')]);
+print(#t);
+//运行结果：
+Flutter: {Symbol("t"): symbol test}
+Fultter: "symbol test"
+Fultter: "symbol test"
+Fultter:  Symbol("t")
+```
+The value null (Null): Null其实也是一种类型。
+
+8.9
+1、关于List的特殊用法。
+```dart
+var list = [1, 2, 3];
+var list2 = [0, ...list];
+assert(list2.length == 4);
+
+var list2 = [0, ...?list];
+assert(list2.length == 1);
+
+var listOfInts = [1, 2, 3];
+var listOfStrings = ['#0', for (var i in listOfInts) '#$i'];
+assert(listOfStrings[1] == '#1');
+
+var nav = ['Home', 'Furniture', 'Plants', if (promoActive) 'Outlet'];
+```
+2、泛型。常见的泛型比如List、Set、Map。通常泛型E、T、K、V
+同时我们可以进行泛型限定
+```dart
+class Foo<T extends SomeBaseClass> {
+  String toString() => "Instance of 'Foo<$T>'";
+}
+
+// 泛型方法
+T first<T>(List<T> ts) {
+  // Do some initial work or error checking, then...
+  T tmp = ts[0];
+  // Do some additional checking or processing...
+  return tmp;
+}
+```
+
+3、typedef 类似iOS中的typealice
+```dart
+typedef Compare<T> = int Function(T a, T b);
+typedef IntList = List<int>;
+
+```
+
+4、Dart是类型安全的编程语言。
+```dart
+class Animal {
+  void chase(Animal a) { ... }
+  Animal get parent => ...
+}
+
+/// ✅✅✅✅✅✅✅✅✅✅
+class HoneyBadger extends Animal {
+  @override
+  void chase(Object a) { ... }
+
+  // 注意这里可以收紧
+  @override
+  HoneyBadger get parent => ...
+}
+
+/// ❌❌❌❌❌❌❌❌❌ 下面属于类型收紧，是不允许的，但是可以借助：covariant 关键字。
+class Mouse extends Animal {...}
+
+class Cat extends Animal {
+  @override
+  void chase(Mouse x) { ... }
+}
+```
+
+5、Dart中的匹配模式。
+```dart
+void test() {
+  var a = [1, 2, 4];
+  switch (a) {
+    case [var a, var b]:
+      print('ab===$a-$b');
+      break;
+      // 注意这个地方的匹配，第一值可以指定
+    case [2, final aa, final bb]:
+      print('aabb===$aa-$bb');
+      break;
+    case [final c, final d, final e]:
+      print('cde==$c-$d-$e');
+      break;
+  }
+  // 输出是cde==1-2-4
+
+
+  // 也可以通过这种方式进行解构
+  var [c, d, e] = a;
+  print('cde===$c-$d-$e');
+  
+}
+```
+
+6、修饰类的几个关键字。interface、base、final、sealed、abstract、mixin；
+
+7、git rebase和git merge。其实两个的作用都是将另一个上的分支合并到当前分支上。
+
+8、Flutter中的异常FlutterError。默认Flutter中的异常是不需要捕捉的，程序不会因为有exception就退出。
+```dart
+class Vector2d {
+  final double x;
+  final double y;
+
+  Vector2d(this.x, this.y);
+}
+
+class Vector3d extends Vector2d {
+  final double z;
+
+  // Vector3d(final double x, final double y, this.z) : super(x, y);
+  Vector3d(super.x, super.y, this.z);
+}
+
+class Point {
+    final double x;
+    final double y;
+
+    // Initializer list sets instance variables before
+    // the constructor body runs.
+      Point.fromJson(Map<String, double> json)
+          : x = json['x']!,
+            y = json['y']! {
+        print('In Point.fromJson(): ($x, $y)');
+      }
+}
+```
+
+8.22
+1、Future(Function one).then(Function two)。
+    首先flutter是基于时间循环，EventLoop来执行任务。里面有两种循环event和microTask。
+    上面Future的代码其中then就是添加到microTask中。
+
+2、在Dart中，有一个Isolate的概念，它是什么呢？
+    我们已经知道Dart是单线程的，这个线程有自己可以访问的内存空间以及需要运行的事件循环；
+    我们可以将这个空间系统称之为是一个Isolate；
+    比如Flutter中就有一个Root Isolate，负责运行Flutter的代码，比如UI渲染、用户交互等等；
+
+Dart的异步编程（例如Future，async和await）是基于单线程事件循环模型的，异步操作（例如文件I/O，计时器，网络请求等）在后台执行，
+并且当它们完成时，它们的结果会被排队在事件循环中等待处理。这意味着虽然异步操作可以在后台执行，但在主线程上的代码仍然是顺序执行的。
+这种模型可以帮助我们编写非阻塞的代码，并在等待异步操作完成时，让出CPU供其它代码使用。这增加了程序的响应性，使得用户界面可以在等待这些操作完成时仍然保持响应。
+然而，这并不意味着这些操作是在多核CPU上并行执行的。如果你需要在Dart中实现真正的并行化，你可以使用Isolate，每个Isolate都在其自己的线程中运行，
+这些线程可以在多核CPU上并行执行。但是，Isolate之间不共享内存，它们通过消息传递进行通信。
+
+iOS中
+使用async/await并不一定会开辟新的线程。Swift的并发模型是基于任务（Task）的，而不是基于线程。一个任务可以在主线程或者在后台线程上执行。
+当你在主线程上启动一个异步任务时，这个任务会在主线程上执行直到它遇到一个await表达式。这时，控制权会返回到调用异步函数的代码，然后异步任务会在后台线程上继续执行。
+当异步操作完成后，异步任务会重新回到主线程上继续执行。这样就能避免阻塞主线程，同时确保UI操作在主线程上执行。
+
+具体是否开辟新的线程，还需要看任务的具体情况和系统的调度。例如，如果一个异步任务是一个CPU密集型的任务，那么系统可能会为这个任务创建一个新的线程。
+而对于一些IO密集型的任务（如网络请求），则可能会在已有的线程池中选择一个线程执行。这样可以最大限度地利用系统资源，避免无谓的线程切换带来的性能损失。
+
+
+8.23
+1、
+async返回Future.
+async*返回Stream.
+async*比多了一个*，加上*其实是函数生成器的意思。 被async*标记的函数会在返回一组返回值，这些返回值会被包裹在Stream中。async*其实是为yield关键字发出的值提供了一个语法糖。
+Async* 用于创建一个一次返回一堆未来值的函数。每个结果都包含在 Stream 中。
+可以使用
+await for(final a in _createStream()) {
+    print('收到stream $a');
+}
+或者
+final a = _createStream();
+a.listen((event) {
+    print('收到stream $event');
+});
+来进行数据监听
+```dart
+Stream<int> countForOneMinute() async* {
+  for (int i = 1; i <= 60; i++) {
+    await Future.delayed(const Duration(seconds: 1));
+    yield i; // 这里只能用yield来代替return，如果使用return会报错，提示勇士async
+  }
+}
+```
+当然上面就带来了另外一个问题，yield和yield*的区别。
+yield：yield关键字后面直接跟的是你想要返回的值，它会将这个值直接发送给生成器函数的调用者。一旦执行了yield语句，就会暂停生成器函数的执行，等待下一次迭代。
+yield*：yield*关键字后面跟的是一个可迭代的对象（Iterable）或者一个Stream，它会将这个对象中的所有值依次发送给生成器函数的调用者。这个过程会暂停生成器函数的执行，直到所有值都被发送完。
+
+
+
+
+
+

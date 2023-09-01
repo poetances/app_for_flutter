@@ -100,7 +100,24 @@ FutureOr<int> as = '1'; // 报错。
 
             ElevatedButton(onPressed: _addMicroTask, child: const Text('AddMicroTask')),
 
-            ElevatedButton(onPressed: _addEventTask, child: const Text('AddEventTask'))
+            ElevatedButton(onPressed: _addEventTask, child: const Text('AddEventTask')),
+
+            ElevatedButton(onPressed: () async {
+              print('start stream');
+              final a = _createStream();
+              a.listen((event) {
+                print('收到stream $event');
+              });
+              print('end stream');
+            }, child: const Text('Create Stream')),
+
+            ElevatedButton(onPressed: () async {
+              print('start stream');
+              await for(final a in _createStream()) {
+                print('收到stream $a');
+              }
+              print('end stream');
+            }, child: const Text('Create Stream2'))
           ],
         ),
       ),
@@ -128,5 +145,12 @@ FutureOr<int> as = '1'; // 报错。
 
   Future<void> _addEventTask() async {
     Future(_longRunningOperations);
+  }
+
+  Stream<int> _createStream() async* {
+    for (int i = 0; i < 5; i++) {
+      await Future.delayed(const Duration(seconds: 1));
+      yield i;
+    }
   }
 }

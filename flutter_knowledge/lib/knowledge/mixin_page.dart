@@ -95,7 +95,7 @@ class Teacher implements Person, Teach {
 
 ///
 /// with也可以是1：n实现多继承。但是我们经常搭配的是mixin使用。
-class Coder with Person, Teach {
+class Coder implements Person {
   @override
   void breath() {
 
