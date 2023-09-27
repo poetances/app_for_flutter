@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_knowledge/knowledge/isolate_page.dart';
 import 'package:flutter_knowledge/widget/animation_page.dart';
+import 'package:flutter_knowledge/widget/back_drop_filter_page.dart';
+import 'package:flutter_knowledge/widget/keep_alive_page.dart';
+import 'package:flutter_knowledge/widget/page_storage_page.dart';
 import 'package:get/get.dart';
 
 class AWidgetPage extends StatefulWidget {
@@ -12,19 +15,27 @@ class AWidgetPage extends StatefulWidget {
 
 class _AWidgetPageState extends State<AWidgetPage> {
 
+  final List _pages = [
+    'Isolate',
+    'Animation',
+    'BackDropFilter',
+    'KeepAlive',
+    'PageStorage'
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List pages = [
-      'Isolate',
-      'Animation'
-    ];
 
     return Scaffold(
       appBar: AppBar(title: const Text('Widget'),),
       body: ListView.separated(
         itemBuilder: (context, index) {
-          String page = pages[index];
+          String page = _pages[index];
           return GestureDetector(
             onTap: () => _push(page),
             child: Container(
@@ -37,9 +48,19 @@ class _AWidgetPageState extends State<AWidgetPage> {
           );
         },
         separatorBuilder: (context, index) => const Divider(),
-        itemCount: pages.length,
+        itemCount: _pages.length,
       ),
     );
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void _push(String page) {
@@ -49,6 +70,15 @@ class _AWidgetPageState extends State<AWidgetPage> {
         break;
       case 'Animation':
         Get.to(const AnimationPage());
+        break;
+      case 'BackDropFilter':
+        Get.to(BackdropFilterPage());
+        break;
+      case 'KeepAlive':
+        Get.to(const KeepAlivePage());
+        break;
+      case 'PageStorage':
+        Get.to(const PageStoragePage());
         break;
       default:
         break;

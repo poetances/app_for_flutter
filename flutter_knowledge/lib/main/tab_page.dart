@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_knowledge/knowledge/a_knowledge_page.dart';
 import 'package:flutter_knowledge/widget/a_widget_page.dart';
 
@@ -31,19 +32,23 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
           AWidgetPage()
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => setState(() { _tabIndex = index; }),
-        currentIndex: _tabIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_online),
-            label: 'Knowledge'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
-            label: 'Widget'
-          )
-        ],
+      bottomNavigationBar: Banner(
+        message: 'debug',
+        location: BannerLocation.bottomEnd,
+        child: BottomNavigationBar(
+          onTap: (index) => setState(() { _tabIndex = index; }),
+          currentIndex: _tabIndex,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.book_online),
+                label: 'Knowledge'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.set_meal),
+                label: 'Widget'
+            )
+          ],
+        ),
       ),
     );
   }

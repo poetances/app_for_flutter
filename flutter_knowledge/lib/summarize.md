@@ -819,28 +819,6 @@ FutureBuilder需要借助Future来使用。
 1.13
 1、flutter中的列表。SingleScrollView、ListView、CustomScrollView（配合sliver使用）、MergeableMaterial（注意其使用方式，可以动态的进行增加和删除）。
 2、ListWheelScrollView，齿轮滚动。
-3、async 和 async* 的区别。
-async 返回是Future类型，使用return 返回。
-async* 返回是Stream。使用 yield 返回。
-Stream<int> countForOneMinute() async* {
-for (int i = 1; i <= 60; i++) {
-await Future.delayed(const Duration(seconds: 1));//延迟一秒
-yield i;//生成Stream的一个值
-}
-}
-输出日志：
-/*
-flutter: _bids----null：ConnectionState.waiting
-flutter: _bids----1：ConnectionState.active
-flutter: _bids----2：ConnectionState.done
-*/
-
-    Future<int> doSomeLongTask() async { //异步函数
-      await Future.delayed(const Duration(seconds: 1));
-      return 42;
-    }
-
-    了解Stream和Future的区别。 以及StreamBuilder和FutureBuilder的使用。
 
 4、Dismissible侧滑删除。
 
@@ -1481,7 +1459,15 @@ yield：yield关键字后面直接跟的是你想要返回的值，它会将这�
 yield*：yield*关键字后面跟的是一个可迭代的对象（Iterable）或者一个Stream，它会将这个对象中的所有值依次发送给生成器函数的调用者。这个过程会暂停生成器函数的执行，直到所有值都被发送完。
 
 
+2、GetX的强大功能。
+    1、路由方式包括命名路由和匿名路由。
+    2、SnakeBar、Dialogue的自定义。
+    3、内存缓存。Get.put 和 Get.find
+    4、离线缓存。get_storage也是GetX作者提供的一种离线缓存方案，并不依赖原生，性能会更好。
+    
+23.9.26
+1、Exception和Error的区别及使用场景。 总的来说Exception是用来捕获的，而Error用来解决的。
+    Exception它们通常代表了由于外部系统的问题（如文件系统或网络），或由于用户的输入导致的问题。
+    Error代表编程错误，这些问题应该在测试时被发现和修复，而不是在生产环境中捕获和处理。
 
-
-
-
+3、PageStorageKey可以直接就实现了KeepAlive效果。

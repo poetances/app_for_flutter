@@ -8,6 +8,7 @@ import 'package:flutter_knowledge/knowledge/enum_page.dart';
 import 'package:flutter_knowledge/knowledge/grammar_page.dart';
 import 'package:flutter_knowledge/knowledge/import_page.dart';
 import 'package:flutter_knowledge/knowledge/init_page.dart';
+import 'package:flutter_knowledge/knowledge/life_cycle_page.dart';
 import 'package:flutter_knowledge/knowledge/method_page.dart';
 import 'package:flutter_knowledge/knowledge/mixin_page.dart';
 import 'package:flutter_knowledge/knowledge/operator_page.dart';
@@ -42,7 +43,8 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
       'Abstract',
       'Enum',
       'Import',
-      'Async'
+      'Async',
+      'LifeCycle'
     ];
 
     return Scaffold(
@@ -113,6 +115,9 @@ class _AKnowledgePageState extends State<AKnowledgePage> {
         break;
       case 'Async':
         Get.to(const AsyncPage());
+        break;
+      case 'LifeCycle':
+        Get.to(const LifeCyclePage());
         break;
       default:
         break;
