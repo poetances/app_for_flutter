@@ -1471,3 +1471,10 @@ yield*：yield*关键字后面跟的是一个可迭代的对象（Iterable）或
     Error代表编程错误，这些问题应该在测试时被发现和修复，而不是在生产环境中捕获和处理。
 
 3、PageStorageKey可以直接就实现了KeepAlive效果。
+
+23.9.28
+1、Android SDK中的配置。
+    location指定位置
+    SDK Platforms 列举了所有Android的系统版本，相当于升级xcode之后跟随升级的swift版本。
+    SDK Tools 这里列出了所有可用的SDK工具，包括Android SDK Build-Tools，Android Emulator，Android SDK Platform-Tools等
+    Android SDK Update Sites更新站点
