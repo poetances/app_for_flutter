@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_knowledge/knowledge/isolate_page.dart';
 import 'package:flutter_knowledge/widget/animation_page.dart';
 import 'package:flutter_knowledge/widget/back_drop_filter_page.dart';
+import 'package:flutter_knowledge/widget/inherited_page.dart';
 import 'package:flutter_knowledge/widget/keep_alive_page.dart';
 import 'package:flutter_knowledge/widget/page_storage_page.dart';
 import 'package:get/get.dart';
@@ -20,7 +21,8 @@ class _AWidgetPageState extends State<AWidgetPage> {
     'Animation',
     'BackDropFilter',
     'KeepAlive',
-    'PageStorage'
+    'PageStorage',
+    'Inherited'
   ];
 
   @override
@@ -79,6 +81,9 @@ class _AWidgetPageState extends State<AWidgetPage> {
         break;
       case 'PageStorage':
         Get.to(const PageStoragePage());
+        break;
+      case 'Inherited':
+        Get.to(const InheritedPage());
         break;
       default:
         break;

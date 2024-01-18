@@ -1478,3 +1478,45 @@ yield*：yield*关键字后面跟的是一个可迭代的对象（Iterable）或
     SDK Platforms 列举了所有Android的系统版本，相当于升级xcode之后跟随升级的swift版本。
     SDK Tools 这里列出了所有可用的SDK工具，包括Android SDK Build-Tools，Android Emulator，Android SDK Platform-Tools等
     Android SDK Update Sites更新站点
+
+10.7
+1、async、await原理
+并发和并行。 并发是系统管理多个I/O操作，交由CPU执行
+并行：多核CPU同时运行。
+多线程并发 操作系统在线程等待IO的时候，会阻塞当前线程，切换到其它线程，这样在当前线程等待IO的过程中，其它线程可以继续执行。
+    当系统线程较少的时候没有什么问题，但是当线程数量非常多的时候，却产生了问题。一是系统线程会占用非常多的内存空间，二是过多的线程切换会占用大量的系统时间。
+协程 运行在线程之上，当一个协程执行完成后，可以选择主动让出，让另一个协程运行在当前线程之上。协程并没有增加线程数量，
+    只是在线程的基础之上通过分时复用的方式运行多个协程，而且协程的切换在用户态完成，切换的代价比线程从用户态到内核态的代价小很多。
+
+2、
+Widget![img.png](img.png)
+直接继承于该类的主要子类有
+StatelessWidget
+StatefulWidget
+ProxyWidget
+RenderObjectWidget
+
+Element![img_1.png](img_1.png)
+直接继承于该类的主要子类有
+ComponentElement
+RenderObjectElement
+从最上层总结看来，Widget和Element可以划分为两大类：组合类和渲染类；
+上图中绿色的分支为组合类Widget和Element，蓝色的分支为渲染类Widget和Element
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

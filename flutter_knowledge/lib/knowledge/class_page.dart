@@ -7,8 +7,8 @@ class ClassPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('ClassPage'),),
-      body: Column(
-        children: const [
+      body: const Column(
+        children: [
           Text('''
              1、dart会默认生成一个无名、无参的构造函数。
              2、如果有成员变量，那么成员变量必须是可选类型、或者指定了默认值。
