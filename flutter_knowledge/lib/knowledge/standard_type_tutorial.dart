@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class StandardTypePage extends StatefulWidget {
-  const StandardTypePage({Key? key}) : super(key: key);
+class StandardTypeTutorial extends StatefulWidget {
+  const StandardTypeTutorial({Key? key}) : super(key: key);
 
   @override
-  State<StandardTypePage> createState() => _StandardTypePageState();
+  State<StandardTypeTutorial> createState() => _StandardTypeTutorialState();
 }
 
-class _StandardTypePageState extends State<StandardTypePage> {
+class _StandardTypeTutorialState extends State<StandardTypeTutorial> {
 
   @override
   void initState() {

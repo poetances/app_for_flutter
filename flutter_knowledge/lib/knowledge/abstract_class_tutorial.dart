@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AbstractClassPage extends StatelessWidget {
-  const AbstractClassPage({Key? key}) : super(key: key);
+class AbstractClassTutorial extends StatelessWidget {
+  const AbstractClassTutorial({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

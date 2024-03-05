@@ -4,8 +4,8 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BackdropFilterPage extends StatelessWidget {
-  BackdropFilterPage({super.key});
+class BackdropFilterTutorial extends StatelessWidget {
+  BackdropFilterTutorial({super.key});
 
   final List<int> rainbow = [
     0xffff0000,

@@ -3,14 +3,14 @@ import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class IsolatePage extends StatefulWidget {
-  const IsolatePage({Key? key}) : super(key: key);
+class IsolateTutorial extends StatefulWidget {
+  const IsolateTutorial({Key? key}) : super(key: key);
 
   @override
-  State<IsolatePage> createState() => _IsolatePageState();
+  State<IsolateTutorial> createState() => _IsolateTutorialState();
 }
 
-class _IsolatePageState extends State<IsolatePage> {
+class _IsolateTutorialState extends State<IsolateTutorial> {
   int _count = 0;
 
   @override

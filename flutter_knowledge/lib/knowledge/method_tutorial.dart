@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MethodPage extends StatefulWidget {
-  const MethodPage({Key? key}) : super(key: key);
+class MethodTutorial extends StatefulWidget {
+  const MethodTutorial({Key? key}) : super(key: key);
 
   @override
-  State<MethodPage> createState() => _MethodPageState();
+  State<MethodTutorial> createState() => _MethodTutorialState();
 }
 
-class _MethodPageState extends State<MethodPage> {
+class _MethodTutorialState extends State<MethodTutorial> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

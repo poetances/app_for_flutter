@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class MixinPage extends StatefulWidget {
-  const MixinPage({Key? key}) : super(key: key);
+class MixinTutorial extends StatefulWidget {
+  const MixinTutorial({Key? key}) : super(key: key);
 
   @override
-  State<MixinPage> createState() => _MixinPageState();
+  State<MixinTutorial> createState() => _MixinTutorialState();
 }
 
-class _MixinPageState extends State<MixinPage> {
+class _MixinTutorialState extends State<MixinTutorial> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

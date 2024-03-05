@@ -4,14 +4,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class AsyncPage extends StatefulWidget {
-  const AsyncPage({Key? key}) : super(key: key);
+class AsyncTutorial extends StatefulWidget {
+  const AsyncTutorial({Key? key}) : super(key: key);
 
   @override
-  State<AsyncPage> createState() => _AsyncPageState();
+  State<AsyncTutorial> createState() => _AsyncTutorialState();
 }
 
-class _AsyncPageState extends State<AsyncPage> with SingleTickerProviderStateMixin {
+class _AsyncTutorialState extends State<AsyncTutorial> with SingleTickerProviderStateMixin {
 
   late AnimationController _controller;
   late Animation<double> _animation;

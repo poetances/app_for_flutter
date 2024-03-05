@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class LifeCyclePage extends StatefulWidget {
-  const LifeCyclePage({super.key});
+class LifeCycleTutorial extends StatefulWidget {
+  const LifeCycleTutorial({super.key});
 
   @override
-  State<LifeCyclePage> createState() => _LifeCyclePageState();
+  State<LifeCycleTutorial> createState() => _LifeCycleTutorialState();
 }
 
-class _LifeCyclePageState extends State<LifeCyclePage> {
+class _LifeCycleTutorialState extends State<LifeCycleTutorial> {
 
   int _count = 0;
 
@@ -28,7 +28,7 @@ class _LifeCyclePageState extends State<LifeCyclePage> {
 
   /// 当父 Widget 触发 build() 重建（rebuild） 该 Widget 时，引发该回调
   @override
-  void didUpdateWidget(covariant LifeCyclePage oldWidget) {
+  void didUpdateWidget(covariant LifeCycleTutorial oldWidget) {
     super.didUpdateWidget(oldWidget);
     print('didUpdateWidget-当父 Widget 触发 build() 重建（rebuild） 该 Widget 时，引发该回调');
   }

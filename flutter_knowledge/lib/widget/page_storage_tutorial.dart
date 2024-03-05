@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // ScrollController有一个主要属性keepScrollOffset，表示是否存储滚动位置
-class PageStoragePage extends StatefulWidget {
-  const PageStoragePage({super.key});
+class PageStorageTutorial extends StatefulWidget {
+  const PageStorageTutorial({super.key});
 
   @override
-  State<PageStoragePage> createState() => _PageStoragePageState();
+  State<PageStorageTutorial> createState() => _PageStorageTutorialState();
 }
 
-class _PageStoragePageState extends State<PageStoragePage> with SingleTickerProviderStateMixin {
+class _PageStorageTutorialState extends State<PageStorageTutorial> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController _controller;
 

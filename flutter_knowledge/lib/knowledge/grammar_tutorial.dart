@@ -1,18 +1,16 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class GrammarPage extends StatefulWidget {
-  const GrammarPage({Key? key}) : super(key: key);
+class GrammarTutorial extends StatefulWidget {
+  const GrammarTutorial({Key? key}) : super(key: key);
 
   @override
-  State<GrammarPage> createState() => _GrammarPageState();
+  State<GrammarTutorial> createState() => _GrammarTutorialState();
 }
 
-class _GrammarPageState extends State<GrammarPage> {
+class _GrammarTutorialState extends State<GrammarTutorial> {
 
   // 我们可以这样写但是不建议。会报警告
   String _nm = '';

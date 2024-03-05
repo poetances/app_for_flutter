@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_knowledge/dart/a_dart_page.dart';
 import 'package:flutter_knowledge/knowledge/a_knowledge_page.dart';
 import 'package:flutter_knowledge/widget/a_widget_page.dart';
 
@@ -28,6 +29,7 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
       body: IndexedStack(
         index: _tabIndex,
         children: const [
+          ADartPage(),
           AKnowledgePage(),
           AWidgetPage()
         ],

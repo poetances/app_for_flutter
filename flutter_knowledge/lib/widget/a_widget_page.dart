@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_knowledge/knowledge/isolate_page.dart';
-import 'package:flutter_knowledge/widget/animation_page.dart';
-import 'package:flutter_knowledge/widget/back_drop_filter_page.dart';
-import 'package:flutter_knowledge/widget/inherited_page.dart';
-import 'package:flutter_knowledge/widget/keep_alive_page.dart';
-import 'package:flutter_knowledge/widget/page_storage_page.dart';
+import 'package:flutter_knowledge/knowledge/isolate_tutorial.dart';
+import 'package:flutter_knowledge/widget/animation_tutorial.dart';
+import 'package:flutter_knowledge/widget/back_drop_filter_tutorial.dart';
+import 'package:flutter_knowledge/widget/inherited_tutorial.dart';
+import 'package:flutter_knowledge/widget/keep_alive_tutorial.dart';
+import 'package:flutter_knowledge/widget/page_storage_tutorial.dart';
 import 'package:get/get.dart';
 
 class AWidgetPage extends StatefulWidget {
@@ -68,22 +68,22 @@ class _AWidgetPageState extends State<AWidgetPage> {
   void _push(String page) {
     switch (page) {
       case 'Isolate':
-        Get.to(const IsolatePage());
+        Get.to(const IsolateTutorial());
         break;
       case 'Animation':
         Get.to(const AnimationPage());
         break;
       case 'BackDropFilter':
-        Get.to(BackdropFilterPage());
+        Get.to(BackdropFilterTutorial());
         break;
       case 'KeepAlive':
-        Get.to(const KeepAlivePage());
+        Get.to(const KeepAliveTutorial());
         break;
       case 'PageStorage':
-        Get.to(const PageStoragePage());
+        Get.to(const PageStorageTutorial());
         break;
       case 'Inherited':
-        Get.to(const InheritedPage());
+        Get.to(const InheritedTutorial());
         break;
       default:
         break;

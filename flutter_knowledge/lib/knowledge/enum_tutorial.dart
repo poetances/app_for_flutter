@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-class EnumPage extends StatelessWidget {
-  const EnumPage({Key? key}) : super(key: key);
+class EnumTutorial extends StatelessWidget {
+  const EnumTutorial({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

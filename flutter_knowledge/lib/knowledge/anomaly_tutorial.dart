@@ -2,14 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/exceptions/exceptions.dart';
 
-class AnomalyPage extends StatefulWidget {
-  const AnomalyPage({Key? key}) : super(key: key);
+class AnomalyTutorial extends StatefulWidget {
+  const AnomalyTutorial({Key? key}) : super(key: key);
 
   @override
-  State<AnomalyPage> createState() => _AnomalyPageState();
+  State<AnomalyTutorial> createState() => _AnomalyTutorialState();
 }
 
-class _AnomalyPageState extends State<AnomalyPage> {
+class _AnomalyTutorialState extends State<AnomalyTutorial> {
 
   @override
   Widget build(BuildContext context) {

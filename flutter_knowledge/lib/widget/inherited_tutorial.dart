@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class InheritedPage extends StatefulWidget {
-  const InheritedPage({super.key});
+class InheritedTutorial extends StatefulWidget {
+  const InheritedTutorial({super.key});
 
   @override
-  State<InheritedPage> createState() => _InheritedPageState();
+  State<InheritedTutorial> createState() => _InheritedTutorialState();
 }
 
-class _InheritedPageState extends State<InheritedPage> {
+class _InheritedTutorialState extends State<InheritedTutorial> {
   @override
   Widget build(BuildContext context) {
 

@@ -32,14 +32,14 @@ void _destroyOrCacheChild(RenderBox child) {
 *
 * 相对应KeepAlive，PageStorage更加彻底。
 * */
-class KeepAlivePage extends StatefulWidget {
-  const KeepAlivePage({super.key});
+class KeepAliveTutorial extends StatefulWidget {
+  const KeepAliveTutorial({super.key});
 
   @override
-  State<KeepAlivePage> createState() => _KeepAlivePageState();
+  State<KeepAliveTutorial> createState() => _KeepAliveTutorialState();
 }
 
-class _KeepAlivePageState extends State<KeepAlivePage> with SingleTickerProviderStateMixin {
+class _KeepAliveTutorialState extends State<KeepAliveTutorial> with SingleTickerProviderStateMixin {
   final _tabs = [
     '壹',
     '贰',

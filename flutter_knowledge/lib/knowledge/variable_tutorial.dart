@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class VariablePage extends StatefulWidget {
-  const VariablePage({Key? key}) : super(key: key);
+class VariableTutorial extends StatefulWidget {
+  const VariableTutorial({Key? key}) : super(key: key);
 
   @override
-  State<VariablePage> createState() => _VariablePageState();
+  State<VariableTutorial> createState() => _VariableTutorialState();
 }
 
-class _VariablePageState extends State<VariablePage> {
+class _VariableTutorialState extends State<VariableTutorial> {
 
   late String name = _getName();
 
