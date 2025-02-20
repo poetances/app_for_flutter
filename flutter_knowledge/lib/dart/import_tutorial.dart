@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/animation.dart';
 
 class ImportTutorial extends StatelessWidget {
   const ImportTutorial({Key? key}) : super(key: key);
@@ -27,6 +26,21 @@ import 'package:lib1/lib1.dart' show foo;
 
 // Import all names EXCEPT foo.
 import 'package:lib2/lib2.dart' hide foo;
+
+Lazily loading a library
+To reduce a web app’s initial startup time.
+To perform A/B testing—trying out alternative implementations of an algorithm, for example.
+To load rarely used functionality, such as optional screens and dialogs.
+这些场景适合延迟加载
+import 'package:greetings/hello.dart' deferred as hello;
+
+Future<void> greet() async {
+  await hello.loadLibrary();
+  hello.printGreeting();
+}
+You can invoke loadLibrary() multiple times on a library without problems. The library is loaded only once.
+ loadLibrary，可以多次调用，库只会加载一次。
+
           '''),
         ),
       ),

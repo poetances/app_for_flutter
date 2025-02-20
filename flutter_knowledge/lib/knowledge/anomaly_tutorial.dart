@@ -19,7 +19,10 @@ class _AnomalyTutorialState extends State<AnomalyTutorial> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Text('''
-            //Dart通常提供了Error和Exception两种异常
+            Dart通常提供了Error和Exception两种异常
+            In contrast to Java, all of Dart’s exceptions are unchecked exceptions. Methods don’t declare which exceptions they might throw, and you aren’t required to catch any exceptions.
+            这句话详细说明了，Dart中的异常是未检查的，也就是说一个方法，我们根本看不出来内部是否抛出了异常，而且我们也不需要去捕捉这个异常。
+
           '''),
           ElevatedButton(onPressed: _error, child: const Text('抛出Error')),
           ElevatedButton(onPressed: () {
@@ -32,6 +35,9 @@ class _AnomalyTutorialState extends State<AnomalyTutorial> {
               print('捕获到');
             }
 
+            }, child: const Text('抛出Exception')),
+
+          ElevatedButton(onPressed: () {
             // 也可以使用，on指定类型来进行捕捉。
             try {
               _exception();
@@ -40,15 +46,25 @@ class _AnomalyTutorialState extends State<AnomalyTutorial> {
             } finally {
               print('finally');
             }
+          }, child: const Text('try-on')),
 
-            // 也可以配合final
+          ElevatedButton(onPressed: () {
+            // 也可以使用，on指定类型来进行捕捉。
             try {
               _exception();
             } finally {
-              print('finally2');
+              print('finally');
             }
+          }, child: const Text('try-finally')),
 
-          }, child: const Text('抛出Exception'))
+          ElevatedButton(onPressed: () {
+            try {
+              _anyThrow();
+            } catch (e) {
+              print(e);
+              print(e.runtimeType);
+            }
+          }, child: const Text('try-any'))
         ],
       )
     );
@@ -59,9 +75,13 @@ class _AnomalyTutorialState extends State<AnomalyTutorial> {
     throw e;
   }
 
-  void _exception() {
+  void _exception()  {
     var e = Exception('这是一个Exception');
     throw e;
+  }
+
+  void _anyThrow() {
+    throw 'hello, throws';
   }
 }
 

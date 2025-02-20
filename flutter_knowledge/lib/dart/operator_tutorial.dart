@@ -15,8 +15,18 @@ class OperatorTutorial extends StatelessWidget {
           比如：++、--等
           ~/取整
           b ??= value，表示如果value非null，那么b就是value，否则保持b
-          is as as? as!
+          is is! as as? as!
           is可以用于判断是否是一个类。我们可以使用if (a is Type) 来进行提前判断，然后可以在后续作用域使用该类型。
+     
+          as	Typecast (also used to specify library prefixes)
+          is	True if the object has the specified type
+          is!	True if the object doesn’t have the specified type
+          
+          (employee as Person).firstName = 'Bob';
+          if (employee is Person) {
+            // Type check
+            employee.firstName = 'Bob';
+          }
           
           同样我们可重写操作符
           '''),
@@ -34,8 +44,9 @@ class OperatorTutorial extends StatelessWidget {
   void _operator2() {
     dynamic a = 12;
     assert(a is int);
+    assert(a is! int);
     if (a is int) {
-      print(a.isOdd); //
+      print(a.isOdd);
     }
   }
 

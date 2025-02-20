@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_knowledge/dart/a_dart_page.dart';
 import 'package:flutter_knowledge/knowledge/a_knowledge_page.dart';
 import 'package:flutter_knowledge/widget/a_widget_page.dart';
@@ -41,6 +40,10 @@ class _TabPageState extends State<TabPage> with SingleTickerProviderStateMixin {
           onTap: (index) => setState(() { _tabIndex = index; }),
           currentIndex: _tabIndex,
           items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.ac_unit),
+                label: 'Dart'
+            ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.book_online),
                 label: 'Knowledge'

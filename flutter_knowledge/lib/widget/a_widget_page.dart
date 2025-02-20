@@ -44,12 +44,12 @@ class _AWidgetPageState extends State<AWidgetPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               height: 50,
               color: Colors.white,
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: Text(page),
             ),
           );
         },
-        separatorBuilder: (context, index) => const Divider(),
+        separatorBuilder: (context, index) => const Divider(height: 1,),
         itemCount: _pages.length,
       ),
     );

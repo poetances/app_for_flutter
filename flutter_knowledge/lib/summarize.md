@@ -1503,20 +1503,223 @@ RenderObjectElement
 从最上层总结看来，Widget和Element可以划分为两大类：组合类和渲染类；
 上图中绿色的分支为组合类Widget和Element，蓝色的分支为渲染类Widget和Element
 
+3.6
+1、Widget，其中最为关键的内容
+abstract class Widget {
+    Key? key;
+
+    Element createElement();
+
+    static bool canUpdate(Widget oldWidget, Widget newWidget) {
+    return oldWidget.runtimeType == newWidget.runtimeType
+        && oldWidget.key == newWidget.key;
+    }
+}
+
+abstract class StatelessWidget extends Widget {
+    const StatelessWidget({ super.key });
+    
+    @override
+    StatelessElement createElement() => StatelessElement(this);
+    @protected
+    Widget build(BuildContext context);
+}
+
+abstract class StatefulWidget extends Widget {
+    const StatefulWidget({ super.key });
+    
+    @override
+    StatefulElement createElement() => StatefulElement(this);
+    
+    @protected
+    @factory
+    State createState();
+}
+
+abstract class State<T extends StatefulWidget> with Diagnosticable {
+
+    BuildContext get context 
+    
+    StatefulElement? _element;
+    
+    @protected
+    @mustCallSuper
+    void initState() 
+    
+    @protected
+    void setState(VoidCallback fn) 
+    
+    @protected
+    @mustCallSuper
+    void deactivate() { }
+    
+    @protected
+    @mustCallSuper
+    void activate() { }
+    
+    @protected
+    @mustCallSuper
+    void dispose() 
+    
+    @protected
+    Widget build(BuildContext context);
+    
+    @protected
+    @mustCallSuper
+    void didChangeDependencies() { }
+}
+注意Element和BuildContext关系
+abstract class Element extends DiagnosticableTree implements BuildContext 
+Element
+   Element是Widget在树结构中的实例。每个Widget都会创建一个对应的Element。Element是桥接Widget和实际渲染树的关键。Element树是稳定的，即使Widget树在每次重建时都会重新创建，已存在的Element会被复用。
+StatelessElement和StatefulElement分别对应StatelessWidget和StatefulWidget。
+
+RenderObject是实际进行布局和绘制工作的对象。每个RenderObject都会有一个对应的RenderElement（一种特殊的Element），它们负责在Element树和RenderObject树之间建立联系。
+
+渲染原理
+Widget树的构建：应用启动时，会根据根Widget开始构建Widget树。
+Element树的创建和更新：对于每个Widget，Flutter框架会创建或更新一个对应的Element。Element树基本上是Widget树的映射，但它是稳定的。
+与RenderObject的关联：某些类型的Element（如RenderObjectElement）会创建或更新对应的RenderObject。RenderObject负责实际的布局和绘制工作。
+布局和绘制：RenderObject树会进行布局（layout）和绘制（paint）操作，这些操作的结果会被发送到屏幕上，用户就可以看到应用的UI了。
+状态变化和重建：当StatefulWidget的状态改变时（通过调用setState），Flutter框架会重新执行其State对象的build方法来构建新的Widget树。然后，这个新的Widget树会与当前的Element树进行对比，框架会更新Element树和RenderObject树，以反映Widget树的变化。
+通过这一系列的步骤，Flutter能够高效地管理UI的构建和更新，实现流畅的用户体验。这个过程中，Element作为稳定的结构在Widget的不可变性和RenderObject的可变性之间起到了关键的桥梁作用。
+
+不是每个Element都有对应的RenderObject。在Flutter的框架中，Element主要负责组织和维护Widget树的结构，而RenderObject负责具体的布局和绘制工作。根据Widget类型的不同，它们对应的Element可能会或者不会持有一个RenderObject。
+具体来说：
+RenderObjectWidget：这类Widget会创建一个对应的RenderObject。例如，基础的布局Widget如Container、Column和Row都是RenderObjectWidget的实例，它们直接对应于一个RenderObject。这类Widget的Element通常是RenderObjectElement类型的，它会持有并管理一个RenderObject。
+StatelessWidget和StatefulWidget：这两种类型的Widget主要用于构建UI结构，并不直接涉及布局和绘制。它们对应的Element（分别是StatelessElement和StatefulElement）不直接持有RenderObject。但是，这些Widget的build方法可以返回一个RenderObjectWidget，这样间接通过RenderObjectWidget来创建RenderObject。
+其它Widget类型：Flutter还有其他类型的Widget，如InheritedWidget和ProxyWidget，它们对应的Element也不直接持有RenderObject。这些Widget主要用于在Widget树中传递数据、控制Widget的配置等，而不直接参与布局或绘制。
+总结来说，只有RenderObjectWidget及其子类的Element会直接持有一个RenderObject。其它类型的Widget可能通过其子Widget树中的RenderObjectWidget间接与RenderObject相关联。这种设计使得Flutter的UI系统既灵活又高效，可以支持复杂的布局和绘制需求，同时保持良好的组织和可维护性。
+
+BuildContext在Flutter中是一个非常核心的概念，它主要用于在构建UI时标识Widget在Widget树中的位置。每个Widget都会关联一个BuildContext，而且在Flutter的整个Widget树中，每个BuildContext都是唯一的。BuildContext实际上是一个接口，真正的实现是由Element对象来提供的，这意味着每个Element都是一个BuildContext。
+
+abstract class Element implements BuildContext {
+    Widget get widget;
+    BuildContext get context => this;
+    
+    // Element树的父节点
+    Element? _parent;
+    // Element树的子节点
+    List<Element>? _children;
+    
+    // 从BuildContext中获取指定类型的最近的InheritedWidget
+    @override
+    InheritedWidget? dependOnInheritedElement(InheritedElement ancestor, {Object aspect});
+    
+    // 获取RenderObject，如果当前Element是一个RenderObjectElement
+    @override
+    RenderObject? findRenderObject();
+    
+    // 其它BuildContext方法...
+}
+Widget与Element：Widget只是一个不可变的配置描述，实际的UI构建过程是由Element来完成的。当Widget树被创建或更新时，Flutter框架会使用Widget的信息来创建或更新对应的Element树。Element持有Widget的实例，并负责根据Widget的描述来管理UI的生命周期。
+Element与RenderObject：某些特定类型的Element（比如RenderObjectElement）会创建一个RenderObject。这些Element负责将Widget的配置应用到其对应的RenderObject上。RenderObject树负责实际的布局计算和UI绘制。
+Widget与RenderObject：虽然Widget和RenderObject之间没有直接关联，但Widget通过Element间接控制RenderObject。Widget提供了构建和配置UI的声明，而RenderObject根据这些声明执行实际的布局和绘制工作。
+总结来说，Widget提供了一个声明式的方式来构建和配置UI，Element作为桥梁负责管理Widget的生命周期和状态，而RenderObject则执行实际的布局和绘制操作。这三者的协同工作使得Flutter能够高效地构建和渲染复杂的UI界面。
+
+abstract class BuildContext {
+    // 获取与当前BuildContext关联的Widget
+    Widget get widget;
+    
+    // 依赖某个InheritedWidget，并在该InheritedWidget变化时重新构建
+    T dependOnInheritedWidgetOfExactType<T extends InheritedWidget>();
+    
+    // 找到最近的祖先Element对应的RenderObject
+    RenderObject? findRenderObject();
+    
+    // 更多与定位、导航、资源访问相关的方法...
+}
+访问继承的Widget：通过BuildContext，我们可以使用类似Theme.of(context)或MediaQuery.of(context)这样的方法来访问树中最近的Theme或MediaQuery等继承的Widget。这是因为BuildContext提供了dependOnInheritedElement方法，该方法能够向上遍历Element树，找到最近的指定类型的InheritedWidget
+static T of<T extends InheritedWidget>(BuildContext context) {
+    final inheritedWidget = context.dependOnInheritedElement(_ancestor);
+    return inheritedWidget as T;
+}
+获取尺寸和位置：BuildContext可以用来获取Widget的尺寸和位置信息。这是因为BuildContext关联的Element可能是一个RenderObjectElement，它持有一个RenderObject，我们可以通过findRenderObject方法获取到这个RenderObject，然后使用它来查询尺寸和位置信息。
+Size? size = context.findRenderObject()?.size;
+导航和路由：BuildContext也用于导航和路由，如使用Navigator.of(context)来进行页面跳转。这同样是通过BuildContext查找最近的Navigator Widget的Element实现的。
+局部更新：在调用setState方法时，只会重新构建与当前BuildContext关联的Widget子树，这使得界面更新更加高效。
+
+InheritedWidget是Flutter框架中一个非常重要的类，它允许在Widget树中有效地向下传递数据。当使用InheritedWidget时，任何依赖于这些数据的子Widget都可以在数据发生变化时被自动重建，而不需要手动传递回调函数或使用全局状态管理。
+abstract class InheritedWidget extends Widget {
+    const InheritedWidget({Key? key, required Widget child}) : super(key: key, child: child);
+    
+    @override
+    InheritedElement createElement() => InheritedElement(this);
+    
+    // 用于判断旧的InheritedWidget和新的InheritedWidget是否等价
+    // 当数据发生变化时，依赖于这个InheritedWidget的Widget是否需要重建，就是通过这个方法判断的
+    @protected
+    bool updateShouldNotify(covariant InheritedWidget oldWidget);
+}
+InheritedWidget通过updateShouldNotify方法，来判断当数据发生变化时，是否需要通知依赖于这个InheritedWidget的子Widget进行重建。如果返回true，则依赖它的子Widget将会重新构建。
+
+Flutter中继承了InheritedWidget的一些类
+Flutter框架中有很多类继承自InheritedWidget，以下是一些常见的例子：
+
+Theme：Theme是一个非常常见的InheritedWidget，它用于传递主题数据。通过Theme.of(context)方法可以获取最近的Theme实例。
+MediaQuery：MediaQuery提供了媒体查询信息，如设备的屏幕尺寸、设备的像素密度等。这对于响应式布局非常有帮助。
+Locale（通过Localizations）：Localizations Widget提供了本地化资源的访问，它内部使用了InheritedWidget来传递Locale数据。
+Navigator：虽然Navigator自身不是InheritedWidget，但它使用InheritedWidget来使得子Widget能够找到最近的Navigator状态。
+Directionality：Directionality提供了文本方向信息，比如从左到右（LTR）还是从右到左（RTL）。
+这些只是几个例子，实际上Flutter框架中使用了很多InheritedWidget来实现数据的有效传递和状态管理。通过InheritedWidget，Flutter能够实现高效的数据共享和Widget树的局部更新。
+
+在Flutter中，StatefulWidget本身并不直接支持创建of方法。这是因为of方法通常与InheritedWidget配合使用，用于在Widget树中向下传递数据，并允许子Widget通过BuildContext访问这些数据。StatefulWidget和StatelessWidget是用于构建UI的基础，而InheritedWidget是为了数据共享和访问设计的。
+然而，你可以通过结合使用StatefulWidget和InheritedWidget来实现类似的功能。这样做可以让你在StatefulWidget中管理状态，并通过一个内部的InheritedWidget来让子Widget访问这个状态。这种模式在Flutter中是很常见的。
 
 
+Util、Manager、Helper的场景。
+Util一般提供静态方法，比如StringUtils
+class JSONUtil {
+    static func toJSONString<T: Encodable>(_ object: T) -> String? {
+    let encoder = JSONEncoder()
+    guard let jsonData = try? encoder.encode(object) else { return nil }
+    return String(data: jsonData, encoding: .utf8)
+    }
+}
 
+Hellper含义：Helper类是为了提供一组辅助功能而存在的，通常用于支持其他类的操作。与Util不同，Helper可能不仅仅包含静态方法，也可能维护一些状态信息。
+使用场景：当你的类需要一些额外的功能，但这些功能不足以构成一个独立的类时。例如，对特定对象模型的解析、特定数据格式的转换等。
+class URLRequestHelper {
+var baseURL: URL
 
+    init(baseURL: URL) {
+        self.baseURL = baseURL
+    }
+    
+    func createURLRequest(endpoint: String, method: String = "GET") -> URLRequest? {
+        guard let url = URL(string: endpoint, relativeTo: baseURL) else { return nil }
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        return request
+    }
+}
+Manager
+含义：Manager类通常负责协调和管理一些资源或者复杂的逻辑，如连接管理、事务处理等。
+class NetworkManager {
+static let shared = NetworkManager()
 
+    private init() {}
+    
+    func fetchData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url, completionHandler: completion)
+        task.resume()
+    }
+}
 
+A/B测试，也称为拆分测试，是一种统计学方法，用于比较两个或多个版本（通常是两个版本，分别称为A和B）以确定哪个版本的性能更好。
+黑盒测试，不需要编程知识，测试人员可以不了解程序的内部逻辑。
+白盒测试，可以发现内部的设计和实现错误，包括逻辑错误、路径错误等。
 
+CPU渲染
+当在CPU上进行图形渲染时，Skia或其他图形库会根据绘图命令计算出每个像素点的颜色值。这个过程通常发生在系统的内存中。CPU会执行所有必要的图形计算，包括颜色混合、形状绘制、图像处理等操作。完成后，得到的像素数据（通常是一个位图或称为帧缓冲区）表示了最终应该显示在屏幕上的图像。
+GPU渲染
+当使用GPU进行图形渲染时，图形库会将绘制命令和数据发送到GPU。GPU使用它的并行处理能力来快速处理这些图形命令，生成对应的像素数据。这个过程一般发生在显存中，GPU会执行顶点着色、片元着色、纹理映射等操作，最终生成的也是一张位图，即一系列描述屏幕上每个像素颜色的数据。
+显示在屏幕上需要的数据
+无论是CPU渲染还是GPU渲染，最终的目标都是生成一张位图，这张位图包含了屏幕上每个像素的颜色值。这张位图就是渲染的最终产物，它会被发送到显示设备（如LCD显示器）上展示出来。
 
+runApp函数
+runApp函数接受一个Widget作为参数，这个Widget通常是应用的顶层Widget。runApp的实现大致可以分为以下几个步骤：
 
-
-
-
-
-
-
-
-
+确保Widgets绑定：首先，runApp会调用WidgetsFlutterBinding.ensureInitialized()来确保Widgets框架与Flutter引擎正确绑定。WidgetsFlutterBinding是WidgetsBinding的一个具体实现，它负责初始化框架层面的服务，比如绘制、事件处理等。
+设置根Widget：随后，runApp会通过WidgetsBinding的attachRootWidget方法将传入的Widget设置为根Widget。
+启动渲染循环：最后，调用WidgetsBinding的scheduleWarmUpFrame方法来启动第一帧的渲染，进而触发应用的绘制流程。

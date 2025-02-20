@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class AsyncTutorial extends StatefulWidget {
-  const AsyncTutorial({Key? key}) : super(key: key);
+class FutureTutorial extends StatefulWidget {
+  const FutureTutorial({Key? key}) : super(key: key);
 
   @override
-  State<AsyncTutorial> createState() => _AsyncTutorialState();
+  State<FutureTutorial> createState() => _FutureTutorialState();
 }
 
-class _AsyncTutorialState extends State<AsyncTutorial> with SingleTickerProviderStateMixin {
+class _FutureTutorialState extends State<FutureTutorial> with SingleTickerProviderStateMixin {
 
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -117,7 +116,18 @@ FutureOr<int> as = '1'; // 报错。
                 print('收到stream $a');
               }
               print('end stream');
-            }, child: const Text('Create Stream2'))
+            }, child: const Text('Create Stream2')),
+
+            ElevatedButton(onPressed: () async {
+              // 异步获取数据
+              var asyncData = await fetchData(true);
+              print('获取到的数据: $asyncData');
+
+              // 同步获取数据
+              var syncData = fetchData(false); // 注意这里不需要await，因为可能直接返回同步数据
+              print('获取到的数据: $syncData');
+
+            }, child: const Text('FutureOr'))
           ],
         ),
       ),
@@ -151,6 +161,16 @@ FutureOr<int> as = '1'; // 报错。
     for (int i = 0; i < 5; i++) {
       await Future.delayed(const Duration(seconds: 1));
       yield i;
+    }
+  }
+
+  FutureOr<String> fetchData(bool isAsync) {
+    if (isAsync) {
+      // 异步操作: 返回一个将来会解析为String类型的Future
+      return Future.delayed(const Duration(seconds: 1), () => '异步数据');
+    } else {
+      // 同步操作: 直接返回String类型的数据
+      return '同步数据';
     }
   }
 }
